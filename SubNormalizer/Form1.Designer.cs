@@ -40,6 +40,7 @@
             this.chkSync = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chkDash = new System.Windows.Forms.CheckBox();
+            this.btnCheckSync = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFileNamePath
@@ -133,12 +134,24 @@
             this.chkDash.Text = "Put dashes";
             this.chkDash.UseVisualStyleBackColor = true;
             // 
+            // btnCheckSync
+            // 
+            this.btnCheckSync.Location = new System.Drawing.Point(144, 166);
+            this.btnCheckSync.Name = "btnCheckSync";
+            this.btnCheckSync.Size = new System.Drawing.Size(222, 52);
+            this.btnCheckSync.TabIndex = 9;
+            this.btnCheckSync.Text = "Check synchronized files";
+            this.btnCheckSync.UseVisualStyleBackColor = true;
+            this.btnCheckSync.Visible = false;
+            this.btnCheckSync.Click += new System.EventHandler(this.btnCheckSync_Click);
+            // 
             // Form1
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 359);
+            this.Controls.Add(this.btnCheckSync);
             this.Controls.Add(this.chkDash);
             this.Controls.Add(this.chkSync);
             this.Controls.Add(this.label1);
@@ -172,6 +185,7 @@
         private System.Windows.Forms.CheckBox chkSync;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkDash;
+        private System.Windows.Forms.Button btnCheckSync;
     }
 }
 

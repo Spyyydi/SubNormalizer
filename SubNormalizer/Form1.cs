@@ -47,13 +47,13 @@ namespace SubNormalizer
                     nOfSubs = 0;
                     subCounter = 0;
 
-                    if (chkSync.Enabled)
+                    if (chkSync.Checked)
                     {
                         Synchronize(path, fileName, ref output, ref timestampsSynced);
                         messageResults += $"\nNumber of timestamps synchronized: {timestampsSynced}";
                         timestampsSynced = 0;
                     }
-                    if (chkDash.Enabled)
+                    if (chkDash.Checked)
                     {
                         putDashes(path, fileName, ref output, ref noOfDashes);
                         messageResults += $"\nNumber of dashes placed: {noOfDashes}";
@@ -77,12 +77,12 @@ namespace SubNormalizer
                 Normalize(lblFileNamePath.Text.Substring(constTextLen), oldFileName, ref output, ref subCounter, ref nOfSubs);
                 messageResults = $"Number of subs: {nOfSubs}\nNumber of lines went through: {subCounter}";
 
-                if (chkSync.Enabled)
+                if (chkSync.Checked)
                 {
                     Synchronize(lblFileNamePath.Text.Substring(constTextLen), oldFileName, ref output, ref timestampsSynced);
                     messageResults += $"\nNumber of timestamps synchronized: {timestampsSynced}";
                 }
-                if (chkDash.Enabled)
+                if (chkDash.Checked)
                 {
                     putDashes(lblFileNamePath.Text.Substring(constTextLen), oldFileName, ref output, ref noOfDashes);
                     messageResults += $"\nNumber of dashes placed: {noOfDashes}";
@@ -100,6 +100,9 @@ namespace SubNormalizer
             btnNormalize.Enabled = false;
             chkSync.Enabled = false;
             chkDash.Enabled = false;
+            chkSync.Checked = false;
+            chkDash.Checked = false;
+            btnCheckSync.Visible = true;
         }
 
         private void Normalize(string filePath, string oldFileName, ref string output, ref int subCounter, ref int nOfSubs)
@@ -156,6 +159,7 @@ namespace SubNormalizer
 
         private void btnChooseFileNamePath_Click(object sender, EventArgs e)
         {
+            btnCheckSync.Visible = false;
             prefixedFiles.Clear();
 
             lblFileNamePath.Text = "File path: ";
@@ -189,6 +193,7 @@ namespace SubNormalizer
 
         private void Form1_DragDrop(object sender, DragEventArgs e)
         {
+            btnCheckSync.Visible = false;
             prefixedFiles.Clear();
 
             lblFileNamePath.Text = "File path: ";
@@ -373,11 +378,20 @@ namespace SubNormalizer
             if (txtFileName.Text == "")
             {
                 btnNormalize.Enabled = false;
+                chkSync.Enabled = false;
+                chkDash.Enabled = false;
+                chkSync.Checked = false;
+                chkDash.Checked = false;
             }
             else
             {
                 btnNormalize.Enabled = true;
             }
+        }
+
+        private void btnCheckSync_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
