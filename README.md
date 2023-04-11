@@ -8,5 +8,10 @@ Another functionality implemented is replacing noninformative text for humans wi
 For example: `{\shad2\bord1\fade(200,200)\fs18\3c&H04045E&\4c&H06064E&\fnTrebuchet MS\pos(156,320)}` replaced with `-`
 It is implemented same as synchronization with checkboxes which means if you do not need this functionality then you can uncheck checkboxes and do only normalization.
 
+You can chose one file or drag and drop multiple files for normalization.
+
 ---
 
+- [x] Normalizer
+- [ ] Synchronization
+- [ ] Replace dashes
