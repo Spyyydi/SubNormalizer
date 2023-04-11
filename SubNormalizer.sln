@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubNormalizer", "SubNormalizer\SubNormalizer.csproj", "{56C57615-6167-41D7-890B-5FD9434D5817}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56C57615-6167-41D7-890B-5FD9434D5817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C57615-6167-41D7-890B-5FD9434D5817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C57615-6167-41D7-890B-5FD9434D5817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C57615-6167-41D7-890B-5FD9434D5817}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {210F427B-AEC7-45FF-A91B-926771E0CD65}
+	EndGlobalSection
+EndGlobal

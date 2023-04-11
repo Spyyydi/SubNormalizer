@@ -1,0 +1,16 @@
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\bin\Debug\SubNormalizer.exe.config
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\bin\Debug\SubNormalizer.exe
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\bin\Debug\SubNormalizer.pdb
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.csproj.AssemblyReference.cache
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.csproj.SuggestedBindingRedirects.cache
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.Properties.Resources.resources
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.csproj.GenerateResource.cache
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.csproj.CoreCompileInputs.cache
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.exe
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.pdb
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.Form1.resources
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\bin\Debug\SubNormalizer.exe.manifest
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\bin\Debug\SubNormalizer.application
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.TrustInfo.xml
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.exe.manifest
+C:\Users\MAGNUM\Documents\Visual Studio 2022\Projects\SubNormalizer\SubNormalizer\obj\Debug\SubNormalizer.application
