@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SubNormalizer.exe" size="21992">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SubNormalizer.exe" size="22504">
       <assemblyIdentity name="SubNormalizer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>NkBouGgWpjEHVuqvRFWeRA3fgx/rc4+ayUQ4ExpdhOc=</dsig:DigestValue>
+        <dsig:DigestValue>yr8pXY0HJm05p/YpIs28E/PccXoo08p6ysqU6/iQr2I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

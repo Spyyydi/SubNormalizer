@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -59,7 +60,7 @@ namespace SubNormalizer
                         messageResults += $"\nNumber of dashes placed: {noOfDashes}";
                         noOfDashes = 0;
                     }
-
+                    replaceWithSpaces(output);
                     File.WriteAllLines(Path.Combine(path, fileName), output);
                     messageResults += "\n\n";
                     output.Clear();
@@ -87,7 +88,7 @@ namespace SubNormalizer
                     putDashes(lblFileNamePath.Text.Substring(constTextLen), oldFileName, output, ref noOfDashes);
                     messageResults += $"\nNumber of dashes placed: {noOfDashes}";
                 }
-
+                replaceWithSpaces(output);
                 string newFileName = txtFileName.Text;
                 if (newFileName.Substring(newFileName.Length - 4).ToLower() != ".srt")
                     newFileName += ".srt";
@@ -101,7 +102,7 @@ namespace SubNormalizer
             btnNormalize.Enabled = false;
             chkSync.Enabled = false;
             chkDash.Enabled = false;
-            if(chkSync.Checked || chkDash.Checked) btnCheckSync.Visible = true;
+            if (chkSync.Checked || chkDash.Checked) btnCheckSync.Visible = true;
             chkSync.Checked = false;
             chkDash.Checked = false;
         }
@@ -164,7 +165,7 @@ namespace SubNormalizer
 
                 for (int i = 0; i < oldOutput.Count; i++)
                 {
-                    if(i%4 == 1)
+                    if (i % 4 == 1)
                     {
                         //timestamp
                         output.Add(prefixedSubs[i]);
@@ -211,6 +212,27 @@ namespace SubNormalizer
                 oldOutput.Clear();
                 prefixedSubs.Clear();
             }
+        }
+
+        private void replaceWithSpaces(List<string> output)
+        {
+            const string whitespaceCharPattern = @"\s+";
+            const string space = " ";
+
+            List<string> oldOutput = new List<string>(output);
+            output.Clear();
+            for (int i = 0; i < oldOutput.Count; i++)
+            {
+                if (i % 4 == 2)
+                {
+                    output.Add(Regex.Replace(oldOutput[i], whitespaceCharPattern, space));
+                }
+                else
+                {
+                    output.Add(oldOutput[i]);
+                }
+            }
+            oldOutput.Clear();
         }
 
         private void btnChooseFileNamePath_Click(object sender, EventArgs e)
@@ -467,7 +489,7 @@ namespace SubNormalizer
                 }
             }
             string msg = "";
-            if(total == synced)
+            if (total == synced)
             {
                 msg = $"{synced}/{total} synchronized";
             }
