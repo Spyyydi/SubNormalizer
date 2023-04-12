@@ -26,7 +26,7 @@ namespace SubNormalizer
 
         private void btnNormalize_Click(object sender, EventArgs e)
         {
-            string output = "";
+            List<string> output = new List<string>();
             int subCounter = 0;
             int nOfSubs = 0;
             int timestampsSynced = 0;
@@ -42,27 +42,27 @@ namespace SubNormalizer
                     string path = file.Substring(0, fileNameStartIndex);
                     string fileName = file.Substring(fileNameStartIndex);
 
-                    Normalize(path, fileName, ref output, ref subCounter, ref nOfSubs);
+                    Normalize(path, fileName, output, ref subCounter, ref nOfSubs);
                     messageResults += $"{fileName}\nNumber of subs: {nOfSubs}\nNumber of lines went through: {subCounter}";
                     nOfSubs = 0;
                     subCounter = 0;
 
                     if (chkSync.Checked)
                     {
-                        Synchronize(path, fileName, ref output, ref timestampsSynced);
+                        Synchronize(path, fileName, output, ref timestampsSynced);
                         messageResults += $"\nNumber of timestamps synchronized: {timestampsSynced}";
                         timestampsSynced = 0;
                     }
                     if (chkDash.Checked)
                     {
-                        putDashes(path, fileName, ref output, ref noOfDashes);
+                        putDashes(path, fileName, output, ref noOfDashes);
                         messageResults += $"\nNumber of dashes placed: {noOfDashes}";
                         noOfDashes = 0;
                     }
 
-                    File.WriteAllText(Path.Combine(path, fileName), output);
+                    File.WriteAllLines(Path.Combine(path, fileName), output);
                     messageResults += "\n\n";
-                    output = "";
+                    output.Clear();
                 }
                 files.Clear();
 
@@ -74,24 +74,25 @@ namespace SubNormalizer
             {
                 int constTextLen = "File path: ".Length;
 
-                Normalize(lblFileNamePath.Text.Substring(constTextLen), oldFileName, ref output, ref subCounter, ref nOfSubs);
+                Normalize(lblFileNamePath.Text.Substring(constTextLen), oldFileName, output, ref subCounter, ref nOfSubs);
                 messageResults = $"Number of subs: {nOfSubs}\nNumber of lines went through: {subCounter}";
 
                 if (chkSync.Checked)
                 {
-                    Synchronize(lblFileNamePath.Text.Substring(constTextLen), oldFileName, ref output, ref timestampsSynced);
+                    Synchronize(lblFileNamePath.Text.Substring(constTextLen), oldFileName, output, ref timestampsSynced);
                     messageResults += $"\nNumber of timestamps synchronized: {timestampsSynced}";
                 }
                 if (chkDash.Checked)
                 {
-                    putDashes(lblFileNamePath.Text.Substring(constTextLen), oldFileName, ref output, ref noOfDashes);
+                    putDashes(lblFileNamePath.Text.Substring(constTextLen), oldFileName, output, ref noOfDashes);
                     messageResults += $"\nNumber of dashes placed: {noOfDashes}";
                 }
 
                 string newFileName = txtFileName.Text;
                 if (newFileName.Substring(newFileName.Length - 4).ToLower() != ".srt")
                     newFileName += ".srt";
-                File.WriteAllText(Path.Combine(lblFileNamePath.Text.Substring(constTextLen), newFileName), output);
+                File.WriteAllLines(Path.Combine(lblFileNamePath.Text.Substring(constTextLen), newFileName), output);
+                output.Clear();
                 lblNormalized.ForeColor = Color.Green;
 
                 MessageBox.Show(messageResults);
@@ -100,23 +101,25 @@ namespace SubNormalizer
             btnNormalize.Enabled = false;
             chkSync.Enabled = false;
             chkDash.Enabled = false;
+            if(chkSync.Checked || chkDash.Checked) btnCheckSync.Visible = true;
             chkSync.Checked = false;
             chkDash.Checked = false;
-            btnCheckSync.Visible = true;
         }
 
-        private void Normalize(string filePath, string oldFileName, ref string output, ref int subCounter, ref int nOfSubs)
+        private void Normalize(string filePath, string oldFileName, List<string> output, ref int subCounter, ref int nOfSubs)
         {
             string temp = "";
             int flag = 0;
 
             // Read the file line by line.
-            foreach (string line in File.ReadLines(Path.Combine(filePath, oldFileName)))
+            string[] subs = File.ReadAllLines(Path.Combine(filePath, oldFileName));
+            foreach (string line in subs)
             {
                 int count;
                 if (int.TryParse(line, out count) && flag == 2)
                 {
-                    output += temp.Trim() + "\n\n";
+                    output.Add(temp.Trim());
+                    output.Add("");
                     nOfSubs = count;
                     temp = "";
                     flag = 0;
@@ -124,16 +127,19 @@ namespace SubNormalizer
 
                 if (flag == 0)
                 {
-                    output += line + "\n";
+                    //line with subtitle number
+                    output.Add(line);
                     flag = 1;
                 }
                 else if (flag == 1)
                 {
-                    output += line + "\n";
+                    //line with subtitle timestamps
+                    output.Add(line);
                     flag = 2;
                 }
                 else if (flag == 2)
                 {
+                    //line with subtitle text
                     if (line.Length > 0)
                     {
                         temp += line.Trim() + " ";
@@ -143,18 +149,68 @@ namespace SubNormalizer
             }
             if (temp != "")
             {
-                output += temp.Trim() + "\n";
+                output.Add(temp.Trim());
             }
         }
 
-        private void Synchronize(string filePath, string oldFileName, ref string output, ref int timestampsSynced)
+        private void Synchronize(string filePath, string oldFileName, List<string> output, ref int timestampsSynced)
         {
+            string fileToSync = Path.Combine(filePath, oldFileName);
+            if (prefixedFiles[fileToSync].Value)
+            {
+                List<string> oldOutput = new List<string>(output);
+                output.Clear();
+                List<string> prefixedSubs = new List<string>(File.ReadAllLines(prefixedFiles[fileToSync].Key));
 
+                for (int i = 0; i < oldOutput.Count; i++)
+                {
+                    if(i%4 == 1)
+                    {
+                        //timestamp
+                        output.Add(prefixedSubs[i]);
+                        timestampsSynced++;
+                    }
+                    else
+                    {
+                        output.Add(oldOutput[i]);
+                    }
+                }
+                oldOutput.Clear();
+                prefixedSubs.Clear();
+            }
         }
 
-        private void putDashes(string filePath, string oldFileName, ref string output, ref int noOfDashes)
+        private void putDashes(string filePath, string oldFileName, List<string> output, ref int noOfDashes)
         {
+            string fileToSync = Path.Combine(filePath, oldFileName);
+            if (prefixedFiles[fileToSync].Value)
+            {
+                List<string> oldOutput = new List<string>(output);
+                output.Clear();
+                List<string> prefixedSubs = new List<string>(File.ReadAllLines(prefixedFiles[fileToSync].Key));
 
+                for (int i = 0; i < oldOutput.Count; i++)
+                {
+                    if (i % 4 == 2)
+                    {
+                        if (prefixedSubs[i].StartsWith("{"))
+                        {
+                            output.Add("- " + oldOutput[i]);
+                            noOfDashes++;
+                        }
+                        else
+                        {
+                            output.Add(oldOutput[i]);
+                        }
+                    }
+                    else
+                    {
+                        output.Add(oldOutput[i]);
+                    }
+                }
+                oldOutput.Clear();
+                prefixedSubs.Clear();
+            }
         }
 
         private void btnChooseFileNamePath_Click(object sender, EventArgs e)
@@ -378,10 +434,6 @@ namespace SubNormalizer
             if (txtFileName.Text == "")
             {
                 btnNormalize.Enabled = false;
-                chkSync.Enabled = false;
-                chkDash.Enabled = false;
-                chkSync.Checked = false;
-                chkDash.Checked = false;
             }
             else
             {
@@ -391,7 +443,40 @@ namespace SubNormalizer
 
         private void btnCheckSync_Click(object sender, EventArgs e)
         {
+            //show files synchronized and not synchronized 
+            //10 ot of 10 were synced or 8 of 10 were synced and print file names that were not synced
+            string notSynced = "Not synchronized files:\n";
+            int synced = 0;
+            int total = 0;
 
+            foreach (var file in prefixedFiles)
+            {
+                if (file.Key.Contains("\\"))
+                {
+                    total++;
+
+                    if (file.Value.Value)
+                    {
+                        synced++;
+                    }
+                    else
+                    {
+                        int fileNameStartIndex = file.Key.LastIndexOf('\\') + 1;
+                        notSynced += file.Key.Substring(fileNameStartIndex) + "\n";
+                    }
+                }
+            }
+            string msg = "";
+            if(total == synced)
+            {
+                msg = $"{synced}/{total} synchronized";
+            }
+            else
+            {
+                msg = $"{synced}/{total} synchronized\n\n";
+                msg += notSynced;
+            }
+            MessageBox.Show(msg);
         }
     }
 }

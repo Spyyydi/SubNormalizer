@@ -13,5 +13,5 @@ You can chose one file or drag and drop multiple files for normalization.
 ---
 
 - [x] Normalizer
-- [ ] Synchronization
-- [ ] Replace dashes
+- [x] Synchronization
+- [x] Replace dashes
