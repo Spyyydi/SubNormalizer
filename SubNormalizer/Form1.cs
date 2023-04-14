@@ -56,7 +56,7 @@ namespace SubNormalizer
                     }
                     if (chkDash.Checked)
                     {
-                        putDashes(path, fileName, output, ref noOfDashes);
+                        manageDashes(path, fileName, output, ref noOfDashes);
                         messageResults += $"\nNumber of dashes placed: {noOfDashes}";
                         noOfDashes = 0;
                     }
@@ -85,7 +85,7 @@ namespace SubNormalizer
                 }
                 if (chkDash.Checked)
                 {
-                    putDashes(lblFileNamePath.Text.Substring(constTextLen), oldFileName, output, ref noOfDashes);
+                    manageDashes(lblFileNamePath.Text.Substring(constTextLen), oldFileName, output, ref noOfDashes);
                     messageResults += $"\nNumber of dashes placed: {noOfDashes}";
                 }
                 replaceWithSpaces(output);
@@ -181,7 +181,7 @@ namespace SubNormalizer
             }
         }
 
-        private void putDashes(string filePath, string oldFileName, List<string> output, ref int noOfDashes)
+        private void manageDashes(string filePath, string oldFileName, List<string> output, ref int noOfDashes)
         {
             string fileToSync = Path.Combine(filePath, oldFileName);
             if (prefixedFiles[fileToSync].Value)
@@ -194,10 +194,17 @@ namespace SubNormalizer
                 {
                     if (i % 4 == 2)
                     {
+                        const string firstDashOccurrencePattern = @"^[\p{Pd}]+";
+                        Match dashFoundInPrefixedSubs = Regex.Match(prefixedSubs[i], firstDashOccurrencePattern);
+                        Match dashFoundInOldOutput = Regex.Match(oldOutput[i], firstDashOccurrencePattern);
                         if (prefixedSubs[i].StartsWith("{"))
                         {
                             output.Add("- " + oldOutput[i]);
                             noOfDashes++;
+                        }
+                        else if(dashFoundInOldOutput.Success && dashFoundInPrefixedSubs.Success)
+                        {
+                            output.Add(Regex.Replace(oldOutput[i], firstDashOccurrencePattern, "").Trim());
                         }
                         else
                         {
